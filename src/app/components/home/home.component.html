@@ -1,0 +1,21 @@
+<div class="container">
+      <mat-card *ngFor="let category of categories$ | async">
+        <mat-card-title>{{category.title}}</mat-card-title>
+        <mat-list>
+          <mat-list-item  *ngFor="let todo of category.todos">
+            <div class="todo">
+                  <div class="todo-content">
+                      <mat-icon mat-list-icon>today</mat-icon>
+                      <span mat-line>
+                        {{todo.text}}
+                      </span>
+                      <mat-checkbox
+                        color="primary"
+                        style="margin-left: 20px"
+                      ></mat-checkbox>
+                  </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+  </div>
