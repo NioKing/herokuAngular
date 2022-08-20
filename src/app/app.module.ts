@@ -10,13 +10,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { AddTodoComponent } from './components/add-todo/add-todo.component';
+import { AddNewCategoryComponent } from './components/add-new-category/add-new-category.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    AddTodoComponent
+    AddTodoComponent,
+    AddNewCategoryComponent
   ],
   imports: [
     BrowserModule,
