@@ -1,3 +1,7 @@
+<div class="add">
+  <app-add-todo *ngIf="open" [categories$]="categories$"></app-add-todo>
+  <button mat-raised-button color="primary" (click)="openAdd()" *ngIf="!open">Add Todo</button>
+</div>
 <div class="container">
       <mat-card *ngFor="let category of categories$ | async">
         <mat-card-title>{{category.title}}</mat-card-title>

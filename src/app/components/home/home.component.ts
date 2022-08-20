@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   categories$: Observable<Category[]> = of([])
+  open: boolean = false
 
   ngOnInit(): void {
     this.getAllCategories()
@@ -27,6 +28,10 @@ export class HomeComponent implements OnInit {
     this.categories$ = this.apollo.watchQuery<{ categories: Category[]}>({query: GET_CATEGORIES}).valueChanges.pipe(
       map((res) => res.data.categories),
     )
+  }
+
+  openAdd() {
+    this.open = !this.open
   }
 
 }

@@ -14,3 +14,12 @@ export const GET_CATEGORIES = gql`
   }
 }
 `
+
+export const CATEGORIES = gql`
+query {
+  categories {
+    title
+    id
+  }
+}
+`
