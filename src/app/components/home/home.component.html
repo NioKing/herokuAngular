@@ -10,7 +10,7 @@
             <div class="todo">
                   <div class="todo-content">
                       <mat-icon mat-list-icon>today</mat-icon>
-                      <span mat-line>
+                      <span mat-line [ngClass]="{'isCompleted': todo.isCompleted === true}">
                         {{todo.text}}
                       </span>
                       <mat-checkbox
