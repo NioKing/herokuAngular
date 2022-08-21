@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, Observable, of } from 'rxjs';
 import { GET_CATEGORIES} from 'src/app/graphql/query';
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 
   categories$: Observable<Category[]> = of([])
   open: boolean = false
+  @ViewChildren('CheckBox')CheckBox!: QueryList<ElementRef>
 
   ngOnInit(): void {
     this.getAllCategories()
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
 
 
   getAllCategories() {
-    this.categories$ = this.apollo.watchQuery<{ categories: Category[]}>({query: GET_CATEGORIES}).valueChanges.pipe(
+    this.categories$ = this.apollo.watchQuery<{ categories: Category[]}>({query: GET_CATEGORIES, fetchPolicy:"no-cache"}).valueChanges.pipe(
       map((res) => res.data.categories),
     )
   }

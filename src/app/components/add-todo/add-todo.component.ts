@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Apollo } from 'apollo-angular';
 import { map, Observable, of } from 'rxjs';
+import { CREATE_TODO } from 'src/app/graphql/query';
 import { Category } from 'src/app/models/category';
+import { Todo } from 'src/app/models/todo';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 
 @Component({
@@ -15,11 +17,15 @@ export class AddTodoComponent implements OnInit {
 
   constructor(
     private Apollo: Apollo,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private host: ElementRef<HTMLElement>
     ) { }
     
-   @Input() categories$!: Observable<Category[]>
+  @Input() categories$!: Observable<Category[]>
 
+  newCategory!: string
+  
+  
 
   todoForm = new FormGroup({
     category: new FormControl('', [Validators.required]),
@@ -31,6 +37,18 @@ export class AddTodoComponent implements OnInit {
 
   onSubmit() {
     console.log(this.todoForm.value)
+    this.Apollo.mutate<{ createTodo: Todo}>(
+      {
+        mutation: CREATE_TODO,
+        variables: {
+          text: this.todoForm.value.text || this.newCategory,
+          categoryName: this.todoForm.value.category
+        }
+      }
+    ).subscribe(({data}) => {
+      console.log(data)
+      
+    })
     
   }
 
@@ -39,10 +57,14 @@ export class AddTodoComponent implements OnInit {
       width: '500px',
     }).afterClosed().subscribe(
       (data) => {
-        console.log(data)
+        this.newCategory = data
         
       }
     )
+  }
+
+  close() {
+    this.host.nativeElement.remove()
   }
 
 }

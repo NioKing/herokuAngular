@@ -1,6 +1,6 @@
 <div class="add">
   <app-add-todo *ngIf="open" [categories$]="categories$"></app-add-todo>
-  <button mat-raised-button color="primary" (click)="openAdd()" *ngIf="!open">Add Todo</button>
+  <button mat-raised-button color="primary" (click)="openAdd()">Add Todo</button>
 </div>
 <div class="container">
       <mat-card *ngFor="let category of categories$ | async">
@@ -16,6 +16,7 @@
                       <mat-checkbox
                         color="primary"
                         style="margin-left: 20px"
+                        #CheckBox
                       ></mat-checkbox>
                   </div>
             </div>

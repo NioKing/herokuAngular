@@ -1,7 +1,7 @@
 <div class="container">
     <mat-card>
         <div class="close">
-            <mat-icon>close</mat-icon>
+            <mat-icon (click)="close()">close</mat-icon>
         </div>
         <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="fill">
