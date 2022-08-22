@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, Observable, of } from 'rxjs';
-import { GET_CATEGORIES} from 'src/app/graphql/query';
+import { GET_CATEGORIES, UPDATE_TODO} from 'src/app/graphql/query';
 import { Category } from 'src/app/models/category';
 import { Todo } from 'src/app/models/todo';
 
@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
 
   categories$: Observable<Category[]> = of([])
   open: boolean = false
-  @ViewChildren('CheckBox')CheckBox!: QueryList<ElementRef>
 
   ngOnInit(): void {
     this.getAllCategories()
@@ -35,4 +34,18 @@ export class HomeComponent implements OnInit {
     this.open = !this.open
   }
 
+  async changeTodoStatus($event: any) {
+    const id = await $event.source.value
+    this.apollo.mutate<{ updateTodo: Todo }>(
+      {
+        mutation: UPDATE_TODO,
+        variables: {
+          id: +id,
+          isCompleted: $event.checked
+        }
+      }
+    ).subscribe(({ data }) => {
+      console.log(data)
+    })
+  }
 }

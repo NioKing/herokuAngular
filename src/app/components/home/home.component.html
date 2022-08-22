@@ -16,7 +16,9 @@
                       <mat-checkbox
                         color="primary"
                         style="margin-left: 20px"
-                        #CheckBox
+                        [checked]="todo.isCompleted"
+                        (change)="changeTodoStatus($event)"
+                        [value]="todo.id.toString()"
                       ></mat-checkbox>
                   </div>
             </div>

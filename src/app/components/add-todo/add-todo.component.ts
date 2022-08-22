@@ -41,7 +41,7 @@ export class AddTodoComponent implements OnInit {
       {
         mutation: CREATE_TODO,
         variables: {
-          text: this.todoForm.value.text || this.newCategory,
+          text: this.todoForm.value.text,
           categoryName: this.todoForm.value.category
         }
       }
@@ -57,7 +57,9 @@ export class AddTodoComponent implements OnInit {
       width: '500px',
     }).afterClosed().subscribe(
       (data) => {
-        this.newCategory = data
+        console.log(data)
+        // this.todoForm.get('category')?.setValue(data)
+        
         
       }
     )
