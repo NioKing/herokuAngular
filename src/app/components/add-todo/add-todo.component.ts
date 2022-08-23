@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Apollo } from 'apollo-angular';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { CREATE_TODO } from 'src/app/graphql/query';
 import { Category } from 'src/app/models/category';
 import { Todo } from 'src/app/models/todo';
@@ -34,7 +34,6 @@ export class AddTodoComponent implements OnInit {
   })
 
   ngOnInit(): void {
-
   }
 
   onSubmit() {
@@ -52,13 +51,12 @@ export class AddTodoComponent implements OnInit {
     
   }
 
-  createNewCategory($event: Event) {
+  createNewCategory() {
     const dialogRef = this.dialog.open(AddNewCategoryComponent, {
       width: '500px',
     }).afterClosed().subscribe(
       (data) => {
         console.log(data)
-        // this.todoForm.value.newCategory = data
         this.newCategory = data
       }
       
