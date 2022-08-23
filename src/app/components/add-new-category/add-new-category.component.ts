@@ -13,7 +13,7 @@ export class AddNewCategoryComponent implements OnInit {
 
 
   newCategoryForm = new FormGroup({
-    category: new FormControl('', [Validators.required])
+    category: new FormControl('', [Validators.required, Validators.minLength(5)])
   })
 
   ngOnInit(): void {

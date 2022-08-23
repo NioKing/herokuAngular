@@ -6,6 +6,7 @@ import { map, Observable, of } from 'rxjs';
 import { CREATE_TODO } from 'src/app/graphql/query';
 import { Category } from 'src/app/models/category';
 import { Todo } from 'src/app/models/todo';
+import { RefreshService } from 'src/app/service/refresh.service';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 
 @Component({
@@ -18,7 +19,7 @@ export class AddTodoComponent implements OnInit {
   constructor(
     private Apollo: Apollo,
     private dialog: MatDialog,
-    private host: ElementRef<HTMLElement>
+    private host: ElementRef<HTMLElement>,
     ) { }
     
   @Input() categories$!: Observable<Category[]>
@@ -33,6 +34,7 @@ export class AddTodoComponent implements OnInit {
   })
 
   ngOnInit(): void {
+
   }
 
   onSubmit() {
@@ -42,26 +44,24 @@ export class AddTodoComponent implements OnInit {
         mutation: CREATE_TODO,
         variables: {
           text: this.todoForm.value.text,
-          categoryName: this.todoForm.value.category
+          categoryName: this.todoForm.value.category || this.newCategory
         }
       }
     ).subscribe(({data}) => {
-      console.log(data)
-      
     })
     
   }
 
-  createNewCategory() {
+  createNewCategory($event: Event) {
     const dialogRef = this.dialog.open(AddNewCategoryComponent, {
       width: '500px',
     }).afterClosed().subscribe(
       (data) => {
         console.log(data)
-        // this.todoForm.get('category')?.setValue(data)
-        
-        
+        // this.todoForm.value.newCategory = data
+        this.newCategory = data
       }
+      
     )
   }
 
