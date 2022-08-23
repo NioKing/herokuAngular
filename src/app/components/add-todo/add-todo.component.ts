@@ -2,10 +2,11 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Apollo } from 'apollo-angular';
+import { plainToInstance } from 'class-transformer';
 import { map, Observable, of, tap } from 'rxjs';
 import { CREATE_TODO } from 'src/app/graphql/query';
 import { Category } from 'src/app/models/category';
-import { Todo } from 'src/app/models/todo';
+import { Todo, TodoClass } from 'src/app/models/todo';
 import { RefreshService } from 'src/app/service/refresh.service';
 import { AddNewCategoryComponent } from '../add-new-category/add-new-category.component';
 
@@ -37,7 +38,6 @@ export class AddTodoComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.todoForm.value)
     this.Apollo.mutate<{ createTodo: Todo}>(
       {
         mutation: CREATE_TODO,
@@ -46,7 +46,9 @@ export class AddTodoComponent implements OnInit {
           categoryName: this.todoForm.value.category || this.newCategory
         }
       }
-    ).subscribe(({data}) => {
+    ).pipe(map((res) => plainToInstance(TodoClass, res.data?.createTodo as Object))).subscribe((data) => {
+      console.log(data)
+      
     })
     
   }

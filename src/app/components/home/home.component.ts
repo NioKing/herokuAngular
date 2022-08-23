@@ -1,9 +1,10 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
+import { plainToInstance } from 'class-transformer';
 import { map, Observable, of, Subject, tap } from 'rxjs';
 import { GET_CATEGORIES, UPDATE_TODO} from 'src/app/graphql/query';
-import { Category } from 'src/app/models/category';
-import { Todo } from 'src/app/models/todo';
+import { Category, CategoryClass } from 'src/app/models/category';
+import { Todo, TodoClass } from 'src/app/models/todo';
 import { RefreshService } from 'src/app/service/refresh.service';
 
 @Component({
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit{
 
   getAllCategories() {
     this.categories$ = this.apollo.watchQuery<{ categories: Category[]}>({query: GET_CATEGORIES, fetchPolicy:"no-cache"}).valueChanges.pipe(
-      map((res) => res.data.categories),
+      map((res) => plainToInstance(CategoryClass, res.data.categories as Object[]))
     )
   }
 
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit{
       }
     ).pipe(tap(() => {
       this.refService.setRefresh()
-    })).subscribe(({ data }) => {
+    }),map((res) => plainToInstance(TodoClass, res.data?.updateTodo as Object))).subscribe(( data ) => {
       console.log(data)
     })
   }

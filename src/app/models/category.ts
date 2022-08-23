@@ -7,3 +7,11 @@ export interface Category {
         Todo
     ]
 }
+
+export class CategoryClass {
+    id!: number;
+    title!: string;
+    todos!: [
+        Todo
+    ]
+}
