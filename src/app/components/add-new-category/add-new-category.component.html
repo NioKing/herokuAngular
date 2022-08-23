@@ -1,0 +1,11 @@
+<div class="container">
+    <form [formGroup]="newCategoryForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Category</mat-label>
+            <input type="text" matInput formControlName="category">
+        </mat-form-field>
+        <div class="add-btn">
+            <button mat-raised-button [mat-dialog-close]='newCategoryForm.value.category' [disabled]="newCategoryForm.invalid" color="primary" type="submit">Add</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+    <mat-card>
+        <div class="close">
+            <mat-icon (click)="close()">close</mat-icon>
+        </div>
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Select Category</mat-label>
+                <mat-select formControlName="category">
+                    <mat-option (click)="createNewCategory()">New Category</mat-option>
+                    <ng-container *ngFor="let category of categories$ | async">
+                        <mat-option *ngIf="!newCategory" [value]="category.title">{{category.title}}</mat-option>
+                    </ng-container>
+                    <mat-option *ngIf="newCategory" [value]="newCategory" selected>{{newCategory}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Todo</mat-label>
+                <textarea matInput rows="5" formControlName="text"></textarea>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </form>
+    </mat-card>
+</div>
